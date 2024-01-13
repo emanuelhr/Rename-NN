@@ -246,6 +246,7 @@ namespace WinFormsApp1
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error reading Excel file: {ex.Message}");
+                    
                 }
             }
             else

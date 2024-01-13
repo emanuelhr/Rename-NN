@@ -80,7 +80,11 @@
             Controls.Add(textBox1);
             Controls.Add(label1);
             Controls.Add(browseInput);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
             Name = "Form1";
+            SizeGripStyle = SizeGripStyle.Hide;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "NN renamer";
             ResumeLayout(false);
             PerformLayout();

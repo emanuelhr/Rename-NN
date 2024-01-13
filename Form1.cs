@@ -30,15 +30,15 @@ namespace WinFormsApp1
         }
 
 
-        public bool ReplaceNN(string oldNN,string newNN,string path)
+        public bool ReplaceNN(string oldNN, string newNN, string path)
         {
-            string input = "ID,NN,'"+oldNN+"'";
-            string replaced= "ID,NN,'"+newNN+"'";
+            string input = "ID,NN,'" + oldNN + "'";
+            string replaced = "ID,NN,'" + newNN + "'";
             string extractedText = null;
-                   
+
             //Project
-                        
-            string searchPrefix = "SACHM=";            
+
+            string searchPrefix = "SACHM=";
             string[] lines = File.ReadAllLines(path);
 
             // Search for the line starting with the specified prefix
@@ -58,15 +58,15 @@ namespace WinFormsApp1
             //Table
 
             string tablePath = CurrentFolder(path) + "\\" + extractedText;
-              
+
             string text = File.ReadAllText(tablePath);
-            bool exists =text.Contains(oldNN);
+            bool exists = text.Contains(oldNN);
             string newText = text.Replace(input, replaced);
             if (exists)
             {
                 File.WriteAllText(tablePath, newText);
             }
-            Console.WriteLine("Project done "+path);
+            Console.WriteLine("Project done " + path);
             return exists;
 
         }
@@ -128,7 +128,7 @@ namespace WinFormsApp1
         private void run_Click(object sender, EventArgs e)
         {
             string filePath = textBox1.Text;
-            List<string> currentPath=new List<string>();
+            List<string> currentPath = new List<string>();
             List<string> oldNN = new List<string>();
             List<string> newNN = new List<string>();
             List<string> replaced = new List<string>();
@@ -158,12 +158,12 @@ namespace WinFormsApp1
 
                                     if (cell != null)
                                     {
-                                        
+
                                         switch (cellIndex)
                                         {
                                             case 0:
                                                 currentPath.Add(cell.ToString());
-                                                
+
                                                 break;
                                             case 1:
                                                 oldNN.Add(cell.ToString());
@@ -175,8 +175,8 @@ namespace WinFormsApp1
                                                 Console.WriteLine("Error, it should not have more than 3 columns");
                                                 break;
                                         }
-                                       
-                                      
+
+
 
 
 
@@ -186,11 +186,11 @@ namespace WinFormsApp1
                             }
                         }
 
-                        
+
 
                         for (int i = 0; i < currentPath.Count; i++)
                         {
-                            
+
                             if (ReplaceNN(oldNN[i], newNN[i], currentPath[i]))
                             {
                                 replaced.Add("Replaced");
@@ -202,7 +202,7 @@ namespace WinFormsApp1
 
                         }
 
-                       
+
 
                     }
 
@@ -221,23 +221,23 @@ namespace WinFormsApp1
                     checkCell.SetCellValue("Check");
 
                     // Loop through the data and create cells in the row
-                    for (int i = 1; i < rowCount+1; i++)
+                    for (int i = 1; i < rowCount + 1; i++)
                     {
                         // Create a row at the current index
                         IRow row = sheet2.CreateRow(i);
 
                         // Create cells in the row for each column
                         ICell cell1 = row.CreateCell(0);
-                        cell1.SetCellValue(currentPath[i-1]);
+                        cell1.SetCellValue(currentPath[i - 1]);
 
                         ICell cell2 = row.CreateCell(1);
-                        cell2.SetCellValue(replaced[i-1]);
-                                                
+                        cell2.SetCellValue(replaced[i - 1]);
+
                     }
 
                     using (FileStream fileStream = new FileStream(newPath, FileMode.Create, FileAccess.Write))
-                        { 
-                        workbook2.Write(fileStream); 
+                    {
+                        workbook2.Write(fileStream);
                     }
                     Console.WriteLine("Excel file created successfully.");
 
